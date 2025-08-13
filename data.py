@@ -20,3 +20,12 @@ def mean_daily_steps_by_occupation(df):
 
 def mean_quality_sleep_by_occupation(df):
     return df.groupby("Occupation")["Quality of Sleep"].mean().reset_index()
+
+def mean_sleep_quality_stress(df):
+    return df.groupby("Age")[["Sleep Duration", "Quality of Sleep", "Stress Level"]].mean().reset_index()
+
+def mean_metrics_by_occupation(df):
+    return df.groupby("Occupation")[["Sleep Duration", "Quality of Sleep", "Stress Level"]].mean().reset_index()
+
+def mean_metrics_by_bmi(df):
+    return df.groupby("BMI Category")[["Sleep Duration", "Quality of Sleep", "Stress Level"]].mean().reset_index()

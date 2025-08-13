@@ -1,6 +1,6 @@
 import streamlit as st
-from data import load_data, mean_sleep_by_occupation, mean_stress_by_occupation, mean_daily_steps_by_occupation, mean_quality_sleep_by_occupation
-from charts import bar_chart_mean_sleep_by_occupation, bar_chart_mean_stress_level_occupation, bar_chart_mean_daily_steps, bar_chart_quality_sleep_by_occupation
+from data import load_data, mean_sleep_by_occupation, mean_stress_by_occupation, mean_daily_steps_by_occupation, mean_quality_sleep_by_occupation, mean_sleep_quality_stress, mean_metrics_by_occupation, mean_metrics_by_bmi 
+from charts import bar_chart_mean_sleep_by_occupation, bar_chart_mean_stress_level_occupation, bar_chart_mean_daily_steps, bar_chart_quality_sleep_by_occupation, line_chart_sleep_quality_stress, line_chart_metrics_by_occupation, line_chart_metrics_by_bmi
 
 
 st.set_page_config(layout="wide")
@@ -31,6 +31,8 @@ if pagina == "Gráfico de Barra":
     chart_media_daily_steps = bar_chart_mean_daily_steps(media_daily_steps)
     chart_media_quality_sleep = bar_chart_quality_sleep_by_occupation(media_quality_sleep)
 
+    
+
     col1, spacer, col2 = st.columns([1, 0.1, 1])
 
     with col1:
@@ -42,9 +44,23 @@ if pagina == "Gráfico de Barra":
         st.altair_chart(chart_media_daily_steps, use_container_width=True)
         
     
-    st.dataframe(media_sono, use_container_width=True)
+    #st.dataframe(media_sono, use_container_width=True)
 
 
+if pagina == "Gráfico de Linha":
+    df_grouped = mean_sleep_quality_stress(df)
+    chart = line_chart_sleep_quality_stress(df_grouped)
+    st.altair_chart(chart, use_container_width=True)
+
+    df_grouped = mean_metrics_by_occupation(df) 
+    chart = line_chart_metrics_by_occupation(df_grouped)
+    st.altair_chart(chart, use_container_width=True)
+
+    df_grouped = mean_metrics_by_bmi(df)
+    chart = line_chart_metrics_by_bmi(df_grouped)
+    st.altair_chart(chart, use_container_width=True)
+
+    
 """st.subheader("Visualização de Tabela")
 st.dataframe(df)
 

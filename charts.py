@@ -1,5 +1,5 @@
 import altair as alt
-import pandas as pd
+
 
 def bar_chart_mean_sleep_by_occupation(df):
     
@@ -84,6 +84,72 @@ def bar_chart_quality_sleep_by_occupation(df):
     ).configure_title(
         fontSize = 20,
         anchor = "start"
+    )
+
+    return chart
+
+
+def line_chart_sleep_quality_stress(df_grouped):
+    df_long = df_grouped.melt(
+        id_vars=["Age"],
+        value_vars=["Sleep Duration", "Quality of Sleep", "Stress Level"],
+        var_name="Metric",
+        value_name="Value"
+    )
+
+    chart = alt.Chart(df_long).mark_line(point=True).encode(
+        x = alt.X("Age:Q", title="Idade"),
+        y = alt.Y("Value:Q", title="Valor"),
+        color= alt.Color("Metric:N", title="Métrica"),
+        tooltip=["Age", "Metric", "Value"]
+    ).properties(
+        title="Evolução de Sono e Estresse por Idade",
+        width=600,
+        height=400
+    )
+
+
+    return chart
+
+
+def line_chart_metrics_by_occupation(df_grouped):
+    df_long = df_grouped.melt(
+        id_vars=["Occupation"],
+        value_vars=["Sleep Duration", "Quality of Sleep", "Stress Level"],
+        var_name="Metric",
+        value_name="Value"
+    )
+
+    chart = alt.Chart(df_long).mark_line(point=True).encode(
+        x = alt.X("Occupation:N", title="Profissão", axis=alt.Axis(labelAngle=360)),
+        y = alt.Y("Value:Q", title="Valor"),
+        color = alt.Color("Metric:N", title="Métrica"),
+        tooltip= ["Occupation", "Metric", "Value"]
+    ).properties(
+        title = "Evolução do Sono e Estressse por Profissão",
+        height = 400,
+        width = 600
+    )
+
+    return chart
+
+def line_chart_metrics_by_bmi(df_grouped):
+    df_long = df_grouped.melt(
+        id_vars=["BMI Category"],
+        value_vars=["Sleep Duration", "Quality of Sleep", "Stress Level"],
+        var_name="Metric",
+        value_name="Value"
+    )
+
+    chart = alt.Chart(df_long).mark_line(point=True).encode(
+        x = alt.X("BMI Category:N", title="Nível de IMC", axis=alt.Axis(labelAngle=360)),
+        y = alt.Y("Value:Q", title="Valor"),
+        color = alt.Color("Metric:N", title="Métrica"),
+        tooltip = ["BMI Category", "Metric", "Value"]
+    ).properties(
+        title = "Evolução do Sono e Estresse por Categoria de IMC",
+        width = 600,
+        height = 400
     )
 
     return chart
